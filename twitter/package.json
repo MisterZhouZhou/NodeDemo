@@ -1,0 +1,14 @@
+{
+  "name": "twitter",
+  "version": "0.0.1",
+  "description": "twitter demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zw",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}
