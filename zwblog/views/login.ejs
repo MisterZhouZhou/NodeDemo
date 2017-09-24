@@ -1,0 +1,62 @@
+<title><%= title %></title>
+<div id="container" class="container">
+    <%- message %>
+    <form class="form-signin" role="form" method="post">
+        <h2 class="form-signin-heading">登录</h2>
+        <input id="txtUserName" name="txtUserName" type="text" class="form-control" placeholder="用户名" required autofocus />
+        <input id="txtUserPwd" name="txtUserPwd" type="password" class="form-control" placeholder="密码" required/>
+        <label class="checkbox" style="padding-left: 20px">
+            <input name="chbRem" id="chbRem" type="checkbox" value="remember-me"> 记住密码
+        </label>
+        <button id="btnSub" class="btn btn-lg btn-primary" type="submit">登  录</button>
+        <a class="btn btn-link" href="/register" role="button">注  册</a>
+    </form>
+</div>
+<script type="text/javascript">
+    String.prototype.format = function (args) {
+        var result = this;
+        if (arguments.length > 0) {
+            if (arguments.length == 1 && typeof (args) == "object") {
+                for (var key in args) {
+                    if (args[key] != undefined) {
+                        var reg = new RegExp("({" + key + "})", "g");
+                        result = result.replace(reg, args[key]);
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i] != undefined) {
+                        var reg = new RegExp("({)" + i + "(})", "g");
+                        result = result.replace(reg, arguments[i]);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    $(function(){
+        $('#btnSub').on('click',function(){
+            var
+                $txtUserName = $('#txtUserName'),
+                txtUserNameVal = $.trim($txtUserName.val()),
+                $txtUserPwd = $('#txtUserPwd'),
+                txtUserPwdVal = $.trim($txtUserPwd.val()),
+                errorTip = '<div id="errorTip" class="alert alert-warning">{0}</div> ';
+            $("#errorTip,#alt_warning").remove();
+            if(txtUserNameVal.length == 0)
+            {
+                $("#container").prepend(errorTip.format('用户名不能为空'));
+                $txtUserName.focus();
+                return false;
+            }
+            if(txtUserPwdVal.length == 0)
+            {
+                $("#container").prepend(errorTip.format('密码不能为空'));
+                $txtUserPwd.focus();
+                return false;
+            }
+            return true;
+        })
+    });
+</script>

@@ -1,0 +1,75 @@
+<title><%= title %></title>
+<div id="container" class="container">
+    <%- message %>
+    <form class="form-signin" role="form" method="post">
+        <h2 class="form-signin-heading">注册</h2>
+        <input id="txtUserName" name="txtUserName" type="text" class="form-control" placeholder="用户名" required autofocus />
+        <input id="txtUserPwd" name="txtUserPwd" type="password" class="form-control" placeholder="密码" required/>
+        <input id="txtUserRePwd"  name="txtUserRePwd" type="password" class="form-control" placeholder="重复密码" required/>
+
+        <button id="btnSub" class="btn btn-lg btn-primary" type="submit">注  册</button>
+        <a class="btn btn-link" href="/login" role="button">登  录</a>
+    </form>
+</div>
+<script type="text/javascript">
+    String.prototype.format = function (args) {
+        var result = this;
+        if (arguments.length > 0) {
+            if (arguments.length == 1 && typeof (args) == "object") {
+                for (var key in args) {
+                    if (args[key] != undefined) {
+                        var reg = new RegExp("({" + key + "})", "g");
+                        result = result.replace(reg, args[key]);
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i] != undefined) {
+                        var reg = new RegExp("({)" + i + "(})", "g");
+                        result = result.replace(reg, arguments[i]);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    $(function(){
+        $('#btnSub').on('click',function(){
+            var
+                $txtUserName = $('#txtUserName'),
+                txtUserNameVal = $.trim($txtUserName.val()),
+                $txtUserPwd = $('#txtUserPwd'),
+                txtUserPwdVal = $.trim($txtUserPwd.val()),
+                $txtUserRePwd = $('#txtUserRePwd'),
+                txtUserRePwdVal = $.trim($txtUserRePwd.val()),
+                errorTip = '<div id="errorTip" class="alert alert-warning">{0}</div> ';
+            $("#errorTip,#alt_sucess,#alt_warning").remove();
+            if(txtUserNameVal.length == 0)
+            {
+                $("#container").prepend(errorTip.format('用户名不能为空'));
+                $txtUserName.focus();
+                return false;
+            }
+            if(txtUserPwdVal.length == 0)
+            {
+                $("#container").prepend(errorTip.format('密码不能为空'));
+                $txtUserPwd.focus();
+                return false;
+            }
+            if(txtUserRePwdVal.length == 0)
+            {
+                $("#container").prepend(errorTip.format('重复密码不能为空'));
+                $txtUserRePwd.focus();
+                return false;
+            }
+            if(txtUserPwdVal != txtUserRePwdVal)
+            {
+                $("#container").prepend(errorTip.format('两次密码不一致'));
+                $txtUserPwd.focus();
+                return false;
+            }
+            return true;
+        })
+    });
+</script>
