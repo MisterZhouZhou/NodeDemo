@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //登录以后，将user对象存入session，再交给response对象，用于页面显示
 app.use(function(req,res,next){
     res.locals.user = req.session.user;
-    res.locals.currentItem = req.session.currentItem;
+    // res.locals.currentItem = req.session.currentItem;
     let success = req.session.success;
     let err = req.session.error;
     delete  req.session.success;

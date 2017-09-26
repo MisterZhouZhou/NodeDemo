@@ -12,9 +12,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                 <li><a href="/">首页</a></li>
-                 <li><a href="#">About</a></li>
-                 <li><a href="#">Contact</a></li>
+                 <li class=<%= locals.currentItem == '首页' ? "active" : null %>><a href="/home">首页</a></li>
+                 <li class=<%= locals.currentItem == '关于' ? "active" : null %>><a href="#">About</a></li>
+                 <li class=<%= locals.currentItem == '联系' ? "active" : null %>><a href="#">Contact</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -29,18 +29,17 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="./">Default <span class="sr-only">(current)</span></a></li>
-
+                <li><a href="/">Default <span class="sr-only">(current)</span></a></li>
                 <% if (locals.user) { %>
-                <li><a href="#">
+                <li><a href="/home">
                         <%= locals.user.username %>
                     </a></li>
                 <li><a href="/logout">安全退出</a></li>
                 <% } else {%>
-                <li><a href="/login">登录</a></li>
-                <li><a href="/register">注册</a></li>
+                <li class=<%= locals.currentItem == '登录' ? "active" : null %>><a href="/login">登录</a></li>
+                <li class=<%= locals.currentItem == '注册' ? "active" : null %>><a href="/register">注册</a></li>
                 <% } %>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
-</nav>>
+</nav>

@@ -19,6 +19,7 @@ router.get('/', function(req, res, next) {
 
 // 注册
 router.route('/register').all(Logined).get(function(req,res) {
+    res.locals.currentItem = '注册';
     res.render('register',{title:'注册',layout: 'layout'});
 }).post(function(req,res) {
 
@@ -110,7 +111,7 @@ router.route('/register').all(Logined).get(function(req,res) {
 //响应login请求
 //将错误提示信息存入session
 router.route('/login').all(Logined).get(function(req,res) {
-    req.session.currentItem = '首页';
+    res.locals.currentItem = '登录';
     res.render('login',{title:'登录',layout: 'layout'});
 }).post(function(req,res) {
     /*
@@ -205,6 +206,7 @@ router.route('/home').all(LoginFirst).get(function(req,res) {
     let dbhelp=new DBHelp();
     dbhelp.FindAll('users',selectStr,function(result) {
         if(result) {
+            res.locals.currentItem = '首页';
             res.render('home',{title:'首页',allusers:result,layout: 'layout'});
         } else {
             res.render('home',{title:'首页',layout: 'layout'});
