@@ -1,0 +1,29 @@
+<%-message%>
+<title><%= title %></title>
+<div class="fuzq_home_manage">
+    <h3>用户管理</h3>
+    <table class="fuzq_home_manage_table">
+        <tr>
+            <th>用户名</th>
+            <th>操作</th>
+        </tr>
+        <% allusers.forEach(function(u){
+        if(u.username===user.username){%>
+        <tr>
+            <td style="color:#3c3;"><%-u.username%></td>
+            <td>
+                <span style="color:#3c3;">当前用户</span>
+            </td>
+        </tr>
+        <%}
+        else{%>
+        <tr>
+            <td><%-u.username%></td>
+            <td>
+                <span><a href="/delete/<%-u.username%>">删除</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/resetPwd/<%-u.username%>">重置密码</a></span>
+            </td>
+        </tr>
+        <%}
+        })%>
+    </table>
+</div>

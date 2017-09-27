@@ -186,22 +186,19 @@ router.route('/login').all(Logined).get(function(req,res) {
 
 //登录通过以后，进入Home页面//修改home路由，去掉声明user对象和向页面传递对象
 router.route('/home').all(LoginFirst).get(function(req,res) {
-    /*
-     let sqlStr='select username from users';
-     let dbhelp=new DBHelp();
-     dbhelp.Find(sqlStr,function(result)
-     {
-     if(result)
-     {
-     res.render('home',{title:'Home',Allusers:result});
-     }
-     else
-     {
-     res.render('home',{title:'Home'});
-     }
-     });
-    **/
+    let selectStr = {};
+    let dbhelp=new DBHelp();
+    dbhelp.FindAllArticle('posts',selectStr,function(result) {
+        if(result) {
+            res.render('home',{title:'首页',posts:result,layout: 'layout'});
+        } else {
+            res.render('home',{title:'首页',layout: 'layout'});
+        }
+    });
+});
 
+// users
+router.route('/users').get(function(req,res) {
     let selectStr = {username: 1,_id: 0};
     let dbhelp=new DBHelp();
     dbhelp.FindAll('users',selectStr,function(result) {
@@ -209,10 +206,58 @@ router.route('/home').all(LoginFirst).get(function(req,res) {
             res.locals.currentItem = '首页';
             res.render('home',{title:'首页',allusers:result,layout: 'layout'});
         } else {
-            res.render('home',{title:'首页',layout: 'layout'});
+            res.render('users',{title:'用户',layout: 'layout'});
         }
     });
 });
+
+router.route('/user/:username').get(function(req,res) {
+    let username = req.params.username;
+    let selectStr = {username: username};
+    let dbhelp = new DBHelp();
+    dbhelp.FindOne('users',selectStr,function (user) {
+        if(!user){
+            req.session.error="用户不存在";
+            return res.redirect("/home");
+        }
+        var query={};
+        if(username){
+            query.username=username;
+        }
+        dbhelp.FindArticle('posts', query, function (err,posts) {
+            if(err){
+                req.session.error=err;
+                return req.redirect("/home");
+            }
+            res.render("user",{
+                title:user.username,
+                posts:posts,layout: 'layout'
+            });
+        });
+    });
+});
+
+// post
+router.route('/post').post(function(req,res) {
+    let currentUser = req.session.user;
+    let post = req.body.post;
+    var postStr={
+        username: currentUser.username,
+        post: post,
+        time: new Date()
+    }
+    let dbhelp=new DBHelp();
+    dbhelp.AddArticle('posts',postStr,function(result) {
+        if(!result) {
+            req.session.success = "发表成功";
+            return res.redirect('/user/'+currentUser.name);
+        } else {
+            req.session.error = result;
+            return res.redirect('/home');
+        }
+    });
+});
+
 
 //修改logout路由，注销时，清空session
 router.get('/logout',function(req,res) {
@@ -305,10 +350,10 @@ function LoginFirst(req,res,next) {
     if(req.cookies.islogin) {
         req.session.user = {username: req.cookies.islogin};
     }
-    if(!req.session.user) {
-        req.session.error='请先登录!';
-        return res.redirect('/login');
-    }
+    // if(!req.session.user) {
+    //     req.session.error='请先登录!';
+    //     return res.redirect('/login');
+    // }
     next();
 }
 

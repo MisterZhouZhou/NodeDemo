@@ -127,4 +127,69 @@ MongoDBHelper.prototype.Update=function(tableName,whereStr,updateStr,callback) {
 };
 
 
+/**************************
+ *
+ * 功能：发布文章
+ * 参数：tableName(查询的表名)、whereStr(修改条件)、updateStr(修改数据)、callback(回调函数)
+ *
+ **************************/
+MongoDBHelper.prototype.AddArticle = function(tableName,dataStr,callback) {
+    mongodb.MongoClient.connect(mongodb.DB_CONN_STR,function(err,db) {
+        db.collection(tableName).insert(dataStr,function(err) {
+            if(err) {
+                console.log(err);
+                return false;
+            } else {
+                callback();
+            }
+        });
+        db.close();
+    });
+};
+
+/**************************
+ *
+ * 功能：文章列表
+ * 参数：tableName(查询的表名)、whereStr(修改条件)、updateStr(修改数据)、callback(回调函数)
+ *
+ **************************/
+MongoDBHelper.prototype.FindAllArticle=function(tableName,selectStr,callback) {
+    mongodb.MongoClient.connect(mongodb.DB_CONN_STR,function(err,db) {
+        db.collection(tableName).find({},selectStr).toArray(function(err,result) {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            callback(result);
+        });
+        db.close();
+    });
+};
+
+
+/**************************
+ *
+ * 功能：查询文章
+ * 参数：tableName(查询的表名)、selectStr(查询条件)、callback(回调函数)
+ *
+ **************************/
+MongoDBHelper.prototype.FindArticle=function(tableName,selectStr,callback) {
+    mongodb.MongoClient.connect(mongodb.DB_CONN_STR,function(err,db) {
+        db.collection(tableName).find(selectStr).sort({time:-1}).toArray(function(err,result) {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            //封装posts为Post对象
+            // var posts=[];
+            // result.forEach(function(doc,index){
+            //     var post= (username: doc.username, post: doc.post, time: doc.time);
+            //     posts.push(post);
+            // })
+            callback(null,result);
+        });
+        db.close();
+    });
+}
+
 module.exports = MongoDBHelper;
