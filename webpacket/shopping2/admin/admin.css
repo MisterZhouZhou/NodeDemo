@@ -1,0 +1,8 @@
+body{
+    background: lightgray;
+    color: white;
+}
+
+h1:before{
+    content: url(../icons/admin.jpg);
+}

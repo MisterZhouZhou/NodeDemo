@@ -1,0 +1,1 @@
+document.getElementById('content').innerText = 'This is a admin!!!';
