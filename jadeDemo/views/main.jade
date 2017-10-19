@@ -1,0 +1,125 @@
+extends layout
+
+block content
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  // 第二个title是标题对象,是传过来的字符串
+  // method1
+  title title
+  // method2
+  title= title
+  h1 #{title}
+  // 效果一样
+  h1= title
+  // 测试一把
+  h1 this is a h1 #{title}
+  p.tcolor welcome to #{title}
+  p= 'welcome to' + title
+  div
+    span hello world!
+      label hello zw
+  div
+    label this is label
+
+  div#content
+  p#info
+  a.btn
+
+
+
+  // 执行js
+  // 1.
+  script.
+    console.log('Welcome to join');
+  // 2.
+  script
+    | console.log('hello join')
+
+  // ()分割属性
+  a(rel='nofollow', href='http://www.wandoujia.com/join#getJobInfo=1')
+
+  // 注释
+  //  这是单行注释
+  //
+     这个是多行注释
+     这个是多行注释
+       这个是多行注释
+  //- 这段注释不会输出
+
+  // for循环
+  -for (var i=0;i<10;i++)
+    li hello #{i}
+
+  //=默认会转义内容（会把标签转换为字符串）
+  p= 'Welcome to wandoujia fe, we want <b>you</b>'
+  p Welcome to wandoujia fe, we want <b>you</b>
+  // 这样不会被转译
+  p!= 'Welcome to wandoujia fe, we want <b>you</b>'
+
+
+  - var name = 'yaochun'
+  p my name is #{name}
+
+
+  // each 的语法结构
+  - var jobs = ['fe', 'wangjia','beijign']
+    each job in jobs
+      li= job
+
+  // 字典
+  - var jobs = {"catagory" : "fe", "company" : "wandoujia", "local" : "beijing"}
+    each val,key in jobs
+      li #{key}: #{val}
+
+  //case主要的作用和js里面的switch一样
+  - var apples = 1
+    case apples
+      when 0
+        p you have no apples
+      when 1
+        p you have an apple
+      default
+        p you have #{apples}
+
+
+
+  mixin join
+    ul
+      li 我们需要一帮人
+      li 喜欢前端
+      li 了解前端
+      li 愿意在前端不断学习奋斗的
+      li 你是吗？
+      li 快来加入我们把
+  +join()
+
+
+  mixin join(content)
+    ul
+      li #{content}我们需要一帮人
+      li 喜欢前端
+      li 了解前端
+      li 愿意在前端不断学习奋斗的
+      li 你是吗？
+      li 快来加入我们把
+  +join('zw')
+
+
+  mixin join(content)
+    ul
+      li 我们需要一帮人
+      li 喜欢前端
+      li 了解前端
+      if block
+        block
+      else
+        li 你是吗？
+        li 快来加入我们把
+  +join('zw')
+    li 我们这有神马？
+    li 我们这个有一帮能折腾的老师阿姨
+    li 我们这有美丽的阿姨
+    li 我们每周都有技术交流
+    li 我们这可以用很多开源的新技术
+
+  mixin link(href, name) a(class!=attributes.class, title!=attributes.title, href=href)= name
+  +link('http://wandoujia.com/join', '豌豆荚前端招聘')(class="btn", title="招聘啦，小伙伴快来点") 著作权归作者所有。
