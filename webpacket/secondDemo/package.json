@@ -1,0 +1,20 @@
+{
+  "name": "second",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack",
+    "build": "webpack"
+  },
+  "author": "zw",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
+  },
+  "dependencies": {
+    "css-loader": "^0.28.7",
+    "style-loader": "^0.18.2"
+  }
+}
