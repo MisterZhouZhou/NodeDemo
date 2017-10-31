@@ -26,7 +26,7 @@ var workbook = new Excel.Workbook();
 /* GET import excel test. */
 router.get('/importExcel', function(req, res, next) {
    let dataArray = [];
-   workbook.xlsx.readFile('./streamed-workbook.xlsx')
+   workbook.xlsx.readFile('./test.xlsx')
       .then(function(){
       var worksheet = workbook.getWorksheet(1);
       let dataArray = changeRowsToDict(worksheet);
