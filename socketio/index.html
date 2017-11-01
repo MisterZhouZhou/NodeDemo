@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Socket.IO Example</title>
+  </head>
+  <body>
+    <h1>Socket.IO及时通讯</h1>
+    <p id="count"></p>
+    <form id="message-form" action="#" style="display: flex; flex-direction: row; align-items: center;">
+      <textarea id="message" rows="2" cols="30"></textarea>
+      <input type="submit" value="发送" style="background-color: blue; width: 50px; height: 30px; margin-left: 10px; color: white" />
+    </form>
+    <div id="msg">
+
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      // var socket = io.connect();
+      var socket = io.connect('http://127.0.0.1:8088');
+      socket.emit('login', { username: 'user'+ new Date().getTime()});
+
+      socket.on('users',function(data){
+        $('#count').text('当前在线人数：'+data.number);
+      });
+
+      var message = document.getElementById('message');
+      $(message.form).submit(function() {
+        socket.emit('message', { text: message.value });
+        return false;
+      });
+
+      // 收到消息
+      socket.on('receive_message', function (data) {
+        $('#msg').append('<p>' + data.user + '说:' + data.text + '</p>');
+      });
+
+    </script>
+
+  </body>
+</html>
